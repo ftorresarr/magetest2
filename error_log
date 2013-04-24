@@ -1,0 +1,9 @@
+[24-Jul-2012 12:54:53 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 337591 bytes) in /home/yougento/public_html/m2/app/code/core/Mage/Core/Model/Translate/Inline.php on line 210
+[01-Aug-2012 16:38:52 UTC] PHP Fatal error:  Call to a member function load() on a non-object in /home/yougento/public_html/m2/app/code/local/Yougento/S2b/Model/Product/Type.php on line 15
+[02-Aug-2012 15:50:15 UTC] PHP Fatal error:  Cannot access parent:: when current class scope has no parent in /home/yougento/public_html/m2/app/code/local/Yougento/S2b/Block/Rewrite/Productgrid.php on line 6
+[03-Aug-2012 12:40:49 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/yougento/public_html/m2/app/code/core/Mage/Adminhtml/Block/Widget/Tabs.php on line 236
+[03-Aug-2012 12:41:32 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/yougento/public_html/m2/app/code/core/Mage/Adminhtml/Block/Widget/Tabs.php on line 236
+[03-Aug-2012 12:42:12 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/yougento/public_html/m2/app/code/core/Mage/Adminhtml/Block/Widget/Tabs.php on line 236
+[06-Aug-2012 22:58:46 UTC] PHP Fatal error:  Call to undefined function detectMaxProd() in /home/yougento/public_html/m2/app/code/local/Yougento/S2b/Block/Rewrite/Productgrid.php on line 76
+[06-Aug-2012 22:59:13 UTC] PHP Fatal error:  Call to a member function getEvent() on a non-object in /home/yougento/public_html/m2/app/code/local/Yougento/S2b/Block/Rewrite/Productgrid.php on line 20
+[14-Aug-2012 17:18:30 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/yougento/public_html/m2/app/code/core/Mage/Adminhtml/Block/Widget/Tabs.php on line 236
