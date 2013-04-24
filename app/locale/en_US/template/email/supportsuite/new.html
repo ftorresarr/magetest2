@@ -1,0 +1,11 @@
+<!--@subject {{var store.getFrontendName()}}: New Ticket [#{{var ticket.increment_id}}] @-->
+Dear {{var ticket.name}}
+
+Thank you for contacting us. This is an automated response confirming your inquiry. One of our representative will get back to you as soon as possible. For your records, the details of the ticket are listed below. When replying, please make sure that the ticket ID is kept in the subject line to ensure that your replies are tracked appropriately.
+
+Ticket ID: {{var ticket.increment_id}}
+Subject: {{var ticket.subject}}
+Link: {{var ticket.getFrontendUrl()}}
+
+Thank you,
+{{var store.getFrontendName()}}

@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageMods
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageMods EULA that is bundled with
+ * this package in the file LICENSE.txt. It is also available through
+ * the world-wide-web at this URL: http://www.magemods.co/LICENSE-1.0.txt
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@magemods.co so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension to
+ * newer versions in the future. If you wish to customize the extension for your
+ * needs please refer to http://www.magemods.co/ for more information.
+ */
+-->
+<config>
+    <modules>
+        <MageMods_SupportSuite>
+            <version>1.3.1</version>
+        </MageMods_SupportSuite>
+    </modules>
+    <crontab>
+        <jobs>
+            <supportsuite_cron>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>supportsuite/cron::run</model>
+                </run>
+            </supportsuite_cron>
+        </jobs>
+    </crontab>
+    <global>
+        <models>
+            <supportsuite>
+                <class>MageMods_SupportSuite_Model</class>
+                <resourceModel>supportsuite_mysql4</resourceModel>
+            </supportsuite>
+            <supportsuite_mysql4>
+                <class>MageMods_SupportSuite_Model_Mysql4</class>
+                <entities>
+                    <email>
+                        <table>supportsuite_email</table>
+                    </email>
+                    <ticket>
+                        <table>supportsuite_ticket</table>
+                    </ticket>
+                    <ticket_note>
+                        <table>supportsuite_ticket_note</table>
+                    </ticket_note>
+                    <ticket_message>
+                        <table>supportsuite_ticket_message</table>
+                    </ticket_message>
+                    <ticket_attachment>
+                        <table>supportsuite_ticket_attachment</table>
+                    </ticket_attachment>
+                    <template>
+                        <table>supportsuite_template</table>
+                    </template>
+                </entities>
+            </supportsuite_mysql4>
+        </models>
+        <resources>
+            <supportsuite_setup>
+                <setup>
+                    <module>MageMods_SupportSuite</module>
+                    <class>MageMods_SupportSuite_Model_Mysql4_Setup</class>
+                </setup>
+            </supportsuite_setup>
+        </resources>
+        <blocks>
+            <supportsuite>
+                <class>MageMods_SupportSuite_Block</class>
+            </supportsuite>
+        </blocks>
+        <helpers>
+            <supportsuite>
+                <class>MageMods_SupportSuite_Helper</class>
+            </supportsuite>
+        </helpers>
+        <template>
+            <email>
+                <supportsuite_ticket_new_email_template translate="label" module="supportsuite">
+                    <label>SupportSuite New Ticket</label>
+                    <file>supportsuite/new.html</file>
+                    <type>text</type>
+                </supportsuite_ticket_new_email_template>
+                <supportsuite_ticket_reply_email_template translate="label" module="supportsuite">
+                    <label>SupportSuite Reply Ticket</label>
+                    <file>supportsuite/reply.html</file>
+                    <type>text</type>
+                </supportsuite_ticket_reply_email_template>
+            </email>
+        </template>
+    </global>
+    <admin>
+        <routers>
+            <supportsuiteadmin>
+                <use>admin</use>
+                <args>
+                    <module>MageMods_SupportSuite</module>
+                    <frontName>supportsuiteadmin</frontName>
+                </args>
+            </supportsuiteadmin>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <MageMods_SupportSuite>
+                    <files>
+                        <default>MageMods_SupportSuite.csv</default>
+                    </files>
+                </MageMods_SupportSuite>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <supportsuite>
+                    <file>supportsuite.xml</file>
+                </supportsuite>
+            </updates>
+        </layout>
+        <menu>
+            <supportsuite module="supportsuite">
+                <depends>
+                    <module>MageMods_SupportSuite</module>
+                </depends>
+                <title>Support Suite</title>
+                <sort_order>71</sort_order>
+                <children>
+                    <ticket translate="title" module="supportsuite">
+                        <title>View tickets</title>
+                        <action>supportsuiteadmin/adminhtml_ticket</action>
+                        <sort_order>10</sort_order>
+                    </ticket>
+                    <template translate="title" module="supportsuite">
+                        <title>View templates</title>
+                        <action>supportsuiteadmin/adminhtml_template</action>
+                        <sort_order>20</sort_order>
+                    </template>
+                </children>
+            </supportsuite>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <supportsuite>
+                            <title>SupportSuite</title>
+                            <sort_order>0</sort_order>
+                            <children>
+                                <ticket>
+                                    <title>Manage Tickets</title>
+                                </ticket>
+                                <template>
+                                    <title>Manage Templates</title>
+                                </template>
+                            </children>
+                        </supportsuite>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <supportsuite translate="title" module="supportsuite">
+                                            <title>SupportSuite</title>
+                                            <sort_order>0</sort_order>
+                                        </supportsuite>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <frontend>
+        <secure_url>
+            <supportsuite>/supportsuite/</supportsuite>
+        </secure_url>
+        <routers>
+            <supportsuite>
+                <use>standard</use>
+                <args>
+                    <module>MageMods_SupportSuite</module>
+                    <frontName>supportsuite</frontName>
+                </args>
+            </supportsuite>
+        </routers>
+        <translate>
+            <modules>
+                <MageMods_SupportSuite>
+                    <files>
+                        <default>MageMods_SupportSuite.csv</default>
+                    </files>
+                </MageMods_SupportSuite>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <supportsuite>
+                    <file>supportsuite.xml</file>
+                </supportsuite>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_predispatch_contacts_index_index>
+                <observers>
+                    <supportsuite_observer>
+                        <type>singleton</type>
+                        <class>supportsuite/observer</class>
+                        <method>contactForm</method>
+                    </supportsuite_observer>
+                </observers>
+            </controller_action_predispatch_contacts_index_index>
+            <controller_action_predispatch_contacts_index_post>
+                <observers>
+                    <supportsuite_observer>
+                        <type>singleton</type>
+                        <class>supportsuite/observer</class>
+                        <method>contactForm</method>
+                    </supportsuite_observer>
+                </observers>
+            </controller_action_predispatch_contacts_index_post>
+        </events>
+    </frontend>
+    <default>
+        <supportsuite>
+            <mailbox>
+                <note1>Mailbox configuration can be set only per store view!</note1>
+                <note2>Use unique mailbox per store view!</note2>
+                <enabled>0</enabled>
+                <protocol>pop3</protocol>
+                <host>localhost</host>
+                <port>110</port>
+                <ssl>none</ssl>
+                <username></username>
+                <password></password>
+                <autodelete>0</autodelete>
+            </mailbox>
+            <ticket>
+                <upload_limit>10485760</upload_limit>
+                <attachment_limit>1</attachment_limit>
+                <default_priority>3</default_priority>
+                <form_override>0</form_override>
+                <question_form>0</question_form>
+                <email_identity>support</email_identity>
+                <new_email_template>supportsuite_ticket_new_email_template</new_email_template>
+                <reply_email_template>supportsuite_ticket_reply_email_template</reply_email_template>
+            </ticket>
+        </supportsuite>
+    </default>
+</config>

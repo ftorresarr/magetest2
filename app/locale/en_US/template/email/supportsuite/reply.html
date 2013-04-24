@@ -1,0 +1,11 @@
+<!--@subject {{var store.getFrontendName()}}: New Reply [#{{var ticket.increment_id}}] @-->
+Dear {{var ticket.name}}
+
+{{var message.message}}
+
+Ticket ID: {{var ticket.increment_id}}
+Subject: {{var ticket.subject}}
+Link: {{var ticket.getFrontendUrl()}}
+
+Thank you,
+{{var store.getFrontendName()}}

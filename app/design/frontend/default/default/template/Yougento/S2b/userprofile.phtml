@@ -1,0 +1,32 @@
+<?php
+    $product = Mage::registry('current_product')->getId();
+    $productModel = Mage::getModel('catalog/product')->load($product);
+    $productCreator = $productModel->getCreator();
+    $profile = Mage::getModel('customer/customer');
+    $profile->load($productCreator);
+    $data = $profile->getData();
+   //var_dump($data)
+   $vendorAid=Mage::helper('s2b')->getVendorAid($data['email']);
+   $usrRole=implode('', Mage::getModel('admin/user')->load($vendorAid)->getRoles());
+   $customConfig = Mage::getModel('s2b/configs')->load($usrRole,'vroleid');
+ ?>
+ <div class="block">
+        <div class="block-content">
+            <ul style="margin-left: 15px;">
+                <li><img width="100%" height="auto" class="vendorlogo" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). DS. $data['cplogo']; ?>" />
+        </div>
+<div class="block">
+    <div class="block-title"><strong><span>Seller Profile</span></strong></div>
+        <div class="block-content">
+            <ul style="margin-left: 15px;">
+                <li><img width="150px" height="auto" class="vendorphoto" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA). DS. $data['cppicture']; ?>" />
+                <li><h5>Compamy Name:</h5><?php echo " ".$data['cpname'];?><br />
+                	<?php if($customConfig->getDismail()==NULL OR $customConfig->getDismail()==1){ ?>
+                <li><h5>Email:</h5><?php echo " ".$data['cpemail'] ?><br />
+                	<?php ;}if($customConfig->getDisphone()==NULL OR $customConfig->getDisphone()==1){ ?>
+                <li><h5>Phone:</h5><?php echo " ".$data['cpphone'] ?><br />
+                	<?php ;} ?>
+                <li><h5>Address:</h5><address><?php echo " ".$data['cpaddress']." ".$data['cpcity']." ".$data['cpzip']." ".$data['cpcountry']; ?></address></li>
+            </ul>
+        </div>
+</div>

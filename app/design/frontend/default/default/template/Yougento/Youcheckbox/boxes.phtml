@@ -1,0 +1,47 @@
+<?php
+$youbox=Mage::getModel('youcheckbox/attributes')->getCollection();
+
+foreach($youbox AS $attribute) {
+	$attr= $attribute->getattrname();
+	$code='$vals = Mage::registry("current_product")->get'.$attr.'();';
+	eval($code);
+	$attributes= Mage::registry("current_product")->getResource()->getAttribute($attr);
+	$options = $attributes->getSource()->getAllOptions(false);
+	$values=explode(',', $vals);
+	$attributeSetId    = Mage::registry("current_product")->getAttributeSetId();
+	$attributeKey = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product',$attr);
+	$data = array($attributeKey->getId());
+    $setInfo = Mage::getResourceSingleton('eav/entity_attribute_set')->getSetInfo($data, $attributeSetId);
+	if($setInfo[$attributeKey->getId()]!=NULL){
+	?>
+	<div class='block'>
+	<div class="block-title">
+		<strong>
+			<span><?php echo Mage::registry("current_product")->getResource()->getAttribute($attr)->getFrontendLabel(); ?></span>
+		</strong>
+	</div>
+	<div class='block-content'>
+	<ul class="chek" style="margin-left: 15px;">
+	<?php
+	foreach ($options as $option) {
+		if(in_array($option['value'], $values)){
+				?>
+				<li class="cheky">
+				<?php
+			echo  '<strong>'.$option['label'].'</strong></li>';			
+		}else{
+							?>
+				<li class="chekn">
+				<?php
+			echo  '<strong>'.$option['label'].'</strong></li>';		
+		}
+	}
+		?>
+	</ul>
+	</div>
+	</div>
+	<?php
+	}
+}
+
+?>

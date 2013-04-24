@@ -1,0 +1,27 @@
+<?php 
+
+    $product = Mage::registry('current_product')->getId();
+    $creatorId = Mage::getModel('catalog/product')->load($product)->getCreator();
+    $vendorProducts =  Mage::getResourceModel('catalog/product_collection')->load()
+						->addAttributeToSelect('*')
+						->addAttributeToFilter('creator',$cid);
+?>
+    
+<div class="block" style=" ">
+    <div class="block-title"><strong><span>My Other Products</span></strong>
+    <div class="block-content" style="margin-left: 15px; margin-top: 10px;background: none;overflow-y: scroll;height:300px;">
+    <ul>
+<?php
+    foreach($vendorProducts AS $productGroup){
+        $productStatus = $productGroup->getStatus();
+        if($productGroup->getId() != $product && $productStatus = '1'){            
+            $productPath = $productGroup->getProductUrl();
+            $imagePath = $productGroup->getImageUrl();
+            echo "<li><a href=".$productPath."><img  src='".$imagePath."' style='width: 100px; height:auto' /></a></li><br />";
+        }
+    }
+?>
+</ul>
+</div>
+</div>
+</div>

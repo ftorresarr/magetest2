@@ -1,0 +1,107 @@
+<?php
+/**
+ * MageMods
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageMods EULA that is bundled with
+ * this package in the file LICENSE.txt. It is also available through
+ * the world-wide-web at this URL: http://www.magemods.co/LICENSE-1.0.txt
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@magemods.co so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension to
+ * newer versions in the future. If you wish to customize the extension for your
+ * needs please refer to http://www.magemods.co/ for more information.
+ */
+?>
+<?php $_ticket = $this->getTicket() ?>
+<div class="page-title">
+    <h1><?php echo $this->__("Ticket #%s: '%s'", $_ticket->getIncrementId(), $_ticket->getSubject()) ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php foreach ($_ticket->getThread() as $_message): ?>
+<?php $_attachments = $_message->getAttachments() ?>
+<div class="box-account box-info dashboard">
+    <div class="box">
+        <div class="box-title">
+            <h3><?php echo $this->formatDate($_message->getCreatedAt(), 'short', true) ?></h3>
+        </div>
+        <div class="box-content">
+            <p><?php echo nl2br($this->parseQuotes($this->htmlEscape($_message->getMessage()))) ?></p>
+            <?php if (count($_attachments)): ?>
+            <p>
+            <?php foreach ($_attachments as $_attachment): ?>
+            <a href="<?php echo $this->getUrl('supportsuite/attachment/download', array('token' => $_ticket->getToken(), 'attachment_id' => $_attachment->getId())) ?>"><?php echo $_attachment->getName() ?></a>
+            <?php endforeach ?>
+            </p>
+            <?php endif ?>
+        </div>
+    </div>
+</div>
+<?php endforeach ?>
+<?php if ($_ticket->getOpen()): ?>
+<form action="<?php echo $this->getUrl('supportsuite/ticket/replyPost') ?>" method="post" id="replyForm" enctype="multipart/form-data">
+<input type="hidden" name="token" value="<?php echo $_ticket->getToken() ?>" />
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo $this->__('Reply Information') ?></h2>
+        <ul class="form-list">
+            <li class="wide">
+                <div class="field">
+                    <label for="message" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+                    <div class="input-box">
+                        <textarea id="message" name="message" class="input-text required-entry"><?php echo $this->htmlEscape($this->getMessage()) ?></textarea>
+                    </div>
+                </div>
+            </li>
+            <li class="wide">
+                <div class="field">
+                    <label for="attachment0"><?php echo $this->__('Attachment') ?></label>
+                    <div class="input-box">
+                       <input type="file" id="attachment0" name="attachment[]" class="input-text" />
+                    </div>
+                </div>
+            </li>
+            <li class="wide">
+                <div class="field">
+                    <div class="input-box">
+                       <button type="button" class="button" onclick="javascript:addAttachment(this)"><span><?php echo $this->__('Add Attachment') ?></span></button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="submit" title="<?php echo $this->__('Save') ?>" class="button"><span><span><?php echo $this->__('Save') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var attachmentCount = 1;
+    function addAttachment(element) {
+        var html = '<li class="wide"><div class="field">' +
+        '<label for="attachment' + attachmentCount +'"><?php echo $this->__('Attachment') ?></label>' +
+        '<div class="input-box"><input type="file" id="attachment' + attachmentCount + '" name="attachment[]" class="input-text" /></div>' +
+        '</div></li>';
+        element.parentNode.parentNode.parentNode.insert({before: html});
+        attachmentCount++;
+    }
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+    var replyForm = new VarienForm('replyForm', true);
+//]]>
+</script>
+<?php else: ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>
+<?php endif ?>

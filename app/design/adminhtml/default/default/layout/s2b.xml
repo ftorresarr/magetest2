@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="0.0.1">
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab"><name>customer_edit_tab_cpdata</name><block>s2b/adminhtml_customer_edit_tab_vendorinfo</block></action>
+       <!--     <action method="addTab"><name>customer_edit_tab_cpa</name><block>s2b/adminhtml_customer_edit_tab_cpa</block></action>
+            <action method="addTab"><name>customer_edit_tab_cpb</name><block>s2b/adminhtml_customer_edit_tab_cpb</block></action>
+            <action method="addTab"><name>customer_edit_tab_cpc</name><block>s2b/adminhtml_customer_edit_tab_cpc</block></action> -->
+        </reference>
+   </adminhtml_customer_edit>
+   <s2b_adminhtml_dash_index>
+   	<reference name="s2b_adminhtml_dash_tabs">
+   		<action method="addTab"><name>customer_edit_tab_cpdata</name><block>s2b/adminhtml_customer_edit_tab_vendorinfo</block></action>
+   	</reference>
+   </s2b_adminhtml_dash_index>
+</layout>

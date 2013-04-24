@@ -1,0 +1,88 @@
+<?php
+/**
+ * MageMods
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageMods EULA that is bundled with
+ * this package in the file LICENSE.txt. It is also available through
+ * the world-wide-web at this URL: http://www.magemods.co/LICENSE-1.0.txt
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@magemods.co so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension to
+ * newer versions in the future. If you wish to customize the extension for your
+ * needs please refer to http://www.magemods.co/ for more information.
+ */
+ 
+    $product = Mage::registry('current_product')->getId();
+    $CreatorId = Mage::getModel('catalog/product')->load($product)->getCreator();    
+ 	echo $CreatorId;
+?>
+<div class="box-collateral box-question">
+    <form action="<?php echo $this->getUrl('supportsuite/ticket/formPost') ?>" method="post" id="questionForm">
+    <input type="hidden" name="product_id" value="<?php echo $this->htmlEscape($this->getProductId()) ?>">
+    <input type="hidden" name="creatorid" value="<?php echo $CreatorId; ?>" />
+    <?php echo $this->getBlockHtml('formkey')?>
+    <ul class="form-list">
+        <li class="wide">
+            <div class="field">
+                <label for="subject" class="required"><em>*</em><?php echo $this->__('Subject') ?></label>
+                <div class="input-box">
+                    <input type="text" id="subject" name="subject" value="<?php echo $this->htmlEscape($this->getSubject()) ?>" title="<?php echo $this->__('Subject') ?>" class="input-text required-entry" />
+                </div>
+            </div>
+        </li>
+        <li class="fields">
+            <div class="field">
+                <label for="name" class="required"><em>*</em><?php echo $this->__('Your Name') ?></label>
+                <div class="input-box">
+                    <input type="text" id="name" name="name" value="<?php echo $this->htmlEscape($this->getName()) ?>" title="<?php echo $this->__('Your Name') ?>" class="input-text required-entry" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="realemail" class="required"><em>*</em><?php echo $this->__('Your Email') ?></label>
+                <div class="input-box">
+                    <input type="text" id="realemail" name="realemail" value="<?php echo $this->htmlEscape($this->getRealemail()) ?>" title="<?php echo $this->__('Your Email') ?>" class="input-text required-entry" />
+                </div>
+            </div>
+        </li>
+        <li class="wide">
+            <div class="field">
+                <label for="message" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+                <div class="input-box">
+                    <textarea id="message" name="message" class="input-text required-entry"><?php echo $this->htmlEscape($this->getMessage()) ?></textarea>
+                </div>
+            </div>
+        </li>
+        <li class="fields" style="display: none;">
+            <div class="field">
+                <label for="url"><?php echo $this->__('Url - leave default value') ?></label>
+                <div class="input-box">
+                    <input type="text" id="url" name="url" value="http://" title="<?php echo $this->__('Url') ?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="email"><?php echo $this->__('Email - leave as empty') ?></label>
+                <div class="input-box">
+                    <input type="text" id="email" name="email" value="" title="<?php echo $this->__('Email') ?>" class="input-text" />
+                </div>
+            </div>
+        </li>
+        <li class="wide">
+            <div class="field">
+            <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+            </div>
+        </li>
+    </ul>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var questionForm = new VarienForm('questionForm', true);
+//]]>
+</script>
+</div>

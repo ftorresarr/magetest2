@@ -1,0 +1,22 @@
+<?php
+$attributes = Mage::getResourceModel('eav/entity_attribute_collection');
+foreach($attributes AS $attribute){
+	if($attribute->getFrontendInput()=='youmap'){
+		$attr=$attribute->getAttributeCode();
+		?>
+		<div class='block'>
+		<div class="block-title">
+		<strong>
+			<span><?php echo Mage::registry("current_product")->getResource()->getAttribute($attr)->getFrontendLabel(); ?></span>
+		</strong>
+	</div>
+	<div class='block-content'>
+<?php
+	echo Mage::registry("current_product")->getResource()->getAttribute($attr)->getFrontend()->getValue(Mage::registry("current_product"));
+?>
+	</div>
+	</div>
+<?php
+	}
+}
+?>

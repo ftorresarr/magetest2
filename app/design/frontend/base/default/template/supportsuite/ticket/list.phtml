@@ -1,0 +1,64 @@
+<?php
+/**
+ * MageMods
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageMods EULA that is bundled with
+ * this package in the file LICENSE.txt. It is also available through
+ * the world-wide-web at this URL: http://www.magemods.co/LICENSE-1.0.txt
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@magemods.co so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension to
+ * newer versions in the future. If you wish to customize the extension for your
+ * needs please refer to http://www.magemods.co/ for more information.
+ */
+?>
+<?php $_tickets = $this->getTickets(); ?>
+<div class="page-title">
+    <h1><?php echo Mage::helper('supportsuite')->__('My Tickets') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getChildHtml('pager'); ?>
+<?php if(count($_tickets)): ?>
+    <table class="data-table" id="my-tickets">
+        <col width="1" />
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('supportsuite')->__('Ticket #') ?></th>
+                <th><?php echo Mage::helper('supportsuite')->__('Subject') ?></th>
+                <th><?php echo Mage::helper('supportsuite')->__('Submitted On') ?></th>
+                <th><?php echo Mage::helper('supportsuite')->__('Last Response At') ?></th>
+                <th><?php echo Mage::helper('supportsuite')->__('Open') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($_tickets as $_ticket): ?>
+                <tr>
+                    <td><a href="<?php echo $this->getTicketViewUrl($_ticket->getToken()) ?>" title="<?php echo Mage::helper('supportsuite')->__('View Ticket') ?>"><?php echo $_ticket->getIncrementId() ?></a></td>
+                    <td><a href="<?php echo $this->getTicketViewUrl($_ticket->getToken()) ?>" title="<?php echo Mage::helper('supportsuite')->__('View Ticket') ?>"><?php echo $this->htmlEscape($_ticket->getSubject()) ?></a></td>
+                    <td><span class="nobr"><?php echo $this->formatDate($_ticket->getCreatedAt(), 'short', true) ?></span></td>
+                    <td><span class="nobr"><?php echo $this->formatDate($_ticket->getReplyAt(), 'short', true) ?></span></td>
+                    <td><em><?php echo $_ticket->getOpen() ? Mage::helper('supportsuite')->__('Yes') : Mage::helper('supportsuite')->__('No') ?></em></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-tickets')</script>
+<?php else: ?>
+    <p><?php echo Mage::helper('supportsuite')->__('You have not submitted any tickets yet.'); ?></p>
+<?php endif; ?>
+<?php echo $this->getChildHtml('pager'); ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageMods
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageMods EULA that is bundled with
+ * this package in the file LICENSE.txt. It is also available through
+ * the world-wide-web at this URL: http://www.magemods.co/LICENSE-1.0.txt
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@magemods.co so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension to
+ * newer versions in the future. If you wish to customize the extension for your
+ * needs please refer to http://www.magemods.co/ for more information.
+ */
+-->
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="supportsuite">
+                <name>supportsuite_ticket_list</name>
+                <path>supportsuite/ticket/list</path>
+                <label>My Tickets</label>
+            </action>
+            <action method="addLink" translate="label" module="supportsuite">
+                <name>supportsuite_ticket_form</name>
+                <path>supportsuite/ticket/form</path>
+                <label>Submit Ticket</label>
+            </action>
+        </reference>
+    </customer_account>
+    <supportsuite_ticket_list translate="label">
+        <label>My Tickets</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="supportsuite/ticket_list" name="supportsuite_ticket_list" template="supportsuite/ticket/list.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="supportsuite">
+                <title>My Tickets</title>
+            </action>
+        </reference>
+    </supportsuite_ticket_list>
+    <supportsuite_ticket_view translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+    </supportsuite_ticket_view>
+    <supportsuite_ticket_form translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+    </supportsuite_ticket_form>
+    <sales_order_view>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="supportsuite">
+                <name>ticket</name>
+                <path>supportsuite/ticket/form</path>
+                <label>Create Ticket</label>
+            </action>
+        </reference>
+    </sales_order_view>
+    <catalog_product_view>
+        <reference name="product.info">
+            <block type="supportsuite/product_form" name="product_form">
+                <action translate="title" method="setTitle">
+                    <title>Ask a Question</title>
+                </action>
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

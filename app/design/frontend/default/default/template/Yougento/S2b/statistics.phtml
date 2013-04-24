@@ -1,0 +1,24 @@
+<?php 
+/** @var Mage_Report_Model_Mysql4_Product_Sold_Collection **/
+    $product = Mage::registry('current_product');
+    $productReport = Mage::getResourceModel('reports/product_sold_collection')
+    ->addOrderedQty()->addAttributeToFilter('entity_id', array('eq' => $product->getID()));
+    foreach($productReport AS $product){
+        $productOrdered = $product->getOrderedQty();
+    }
+    $productViewsReport = Mage::getResourceModel('reports/product_viewed_collection')
+    ->addViewsCount()->addAttributeToFilter('entity_id', array('eq' => $product->getId()));
+    foreach($productViewsReport AS $product){
+        $productViewed = $product->getViews();
+    }
+    
+?>
+<div class="block">
+    <div class="block-title"><strong><span>Product Statistics</span></strong></div>
+        <div class="block-content">
+            <ul  style="margin-left: 15px;">
+                <li><h5>Product Views</h5><?php echo " ".$productViewed; ?><br />
+                <li><h5>Product Sales</h5><?php echo " ".intval($productOrdered); ?><br />
+            </ul>
+        </div>
+</div>
