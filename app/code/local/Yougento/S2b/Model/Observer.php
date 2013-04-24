@@ -33,7 +33,8 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
                  
                  
            try {	
-             if (isset($_FILES['cplogo']['name']) && $_FILES['cplogo']['name'] != "") {
+             if (isset($_FILES['cplogo']['name']) && $_FILES['cplogo']['name'] != "") 
+             {
                           
                    $uploader = new Varien_File_Uploader("cplogo");
                    $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
