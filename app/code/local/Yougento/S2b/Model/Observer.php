@@ -139,7 +139,7 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
  				}
                 if (isset($acctype) && $acctype == '2' && $acct=='1') {
                       try
-      {
+      					{
       					
 				          $user = Mage::getModel("admin/user")
 				                  ->setUsername($customer['email'])
