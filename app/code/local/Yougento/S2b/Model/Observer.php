@@ -120,77 +120,76 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
 	public function saveCustomerData(Varien_Event_Observer $observer) 
 	{
             try {
-            	$postData = Mage::app()->getRequest()->getPost();
- 				$acctype = $postData['account']['acctype1'];
- 				$customer = Mage::getModel('customer/customer')->load($postData['customer_id'])->getData();
- 				$loadusr = $customer['email'];
-				$customer['newemail']=$postData['email'];
- 				$checkadmn = Mage::getModel("admin/user")->load($loadusr,'username');
- 				if($postData['account']['oldemail']!=$postData['account']['email'])
- 				{
- 					$acct = '0';
- 				}else
- 				{
- 					if($postData['account']['oldemail']==$postData['account']['email']){
- 						$acct='1';
- 					}else{
- 					$acct = '3';
-					}
- 				}
-                if (isset($acctype) && $acctype == '2' && $acct=='1') {
-                      try
-      					{
-      					
-				          $user = Mage::getModel("admin/user")
-				                  ->setUsername($customer['email'])
-				                  ->setFirstname($customer['firstname'])
-				                  ->setLastname($customer['lastname'])
-				                  ->setEmail($customer['email'])
-				                  ->save();
-				          $resource = Mage::getSingleton('core/resource');
-				          $writeConnection = $resource->getConnection('core_write');
-				          $table = $resource->getTableName('admin/user');
-				          $query = "UPDATE {$table} SET password = '{$customer['password_hash']}' 
-				          			WHERE user_id = '{$user->getId()}'";
-				          $writeConnection->query($query);
-				          $role = Mage::getModel("admin/role");
-				          $role->setParent_id(3);
-				          $role->setTree_level(2);
-				          $role->setRole_type('U');
-				          $role->setUser_id($user->getId());
-				          $role->save();
-						  $userId = $user->getId();
-						  $query1 = "UPDATE admin_role SET parent_id = '3' WHERE user_id = '{$userId}'";
-						  if($writeConnection->query($query1)){
-				          Mage::getSingleton('adminhtml/session')->addSuccess('Customer converted to vendor');
-				          }
-				      }
-				      catch (Exception $e)
-				      {
-				      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-				      }
-                	
-                }elseif(($postData['account']['oldemail']!=$postData['account']['email']) && isset($acctype) && $acctype == '2'){
-                	  try
-      {
-      					
-						Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
-						->setUsername($postData['account']['email'])
-						->setEmail($postData['account']['email'])->save();
-				          Mage::getSingleton('adminhtml/session')->addSuccess('Customer edit to vendor');
-				          
-				      }
-				     	catch (Exception $e)
-				      {
-				      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-				      }
-                	
-                }
-				if(isset($acctype) && $acctype == '2' && (Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
-						->getFirstname($postData['account']['email']))){
-							
+	            	$postData = Mage::app()->getRequest()->getPost();
+	 				$acctype = $postData['account']['acctype1'];
+	 				$customer = Mage::getModel('customer/customer')->load($postData['customer_id'])->getData();
+	 				$loadusr = $customer['email'];
+					$customer['newemail']=$postData['email'];
+	 				$checkadmn = Mage::getModel("admin/user")->load($loadusr,'username');
+	 				if($postData['account']['oldemail']!=$postData['account']['email'])
+	 				{
+	 					$acct = '0';
+	 				}else
+	 				{
+	 					if($postData['account']['oldemail']==$postData['account']['email']){
+	 						$acct='1';
+	 					}else{
+	 					$acct = '3';
 						}
-            }
+	 				}
+	                if (isset($acctype) && $acctype == '2' && $acct=='1') {
+	                      try
+	      					{
+	      					
+					          $user = Mage::getModel("admin/user")
+					                  ->setUsername($customer['email'])
+					                  ->setFirstname($customer['firstname'])
+					                  ->setLastname($customer['lastname'])
+					                  ->setEmail($customer['email'])
+					                  ->save();
+					          $resource = Mage::getSingleton('core/resource');
+					          $writeConnection = $resource->getConnection('core_write');
+					          $table = $resource->getTableName('admin/user');
+					          $query = "UPDATE {$table} SET password = '{$customer['password_hash']}' 
+					          			WHERE user_id = '{$user->getId()}'";
+					          $writeConnection->query($query);
+					          $role = Mage::getModel("admin/role");
+					          $role->setParent_id(3);
+					          $role->setTree_level(2);
+					          $role->setRole_type('U');
+					          $role->setUser_id($user->getId());
+					          $role->save();
+							  $userId = $user->getId();
+							  $query1 = "UPDATE admin_role SET parent_id = '3' WHERE user_id = '{$userId}'";
+							  if($writeConnection->query($query1)){
+					          Mage::getSingleton('adminhtml/session')->addSuccess('Customer converted to vendor');
+					          }
+					      }
+					      catch (Exception $e)
+					      {
+					      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+					      }
+	                	
+	                }elseif(($postData['account']['oldemail']!=$postData['account']['email']) && isset($acctype) && $acctype == '2'){
+	                	  try{
+	      					
+							Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
+							->setUsername($postData['account']['email'])
+							->setEmail($postData['account']['email'])->save();
+					          Mage::getSingleton('adminhtml/session')->addSuccess('Customer edit to vendor');
+					          
+					      }
+					     	catch (Exception $e)
+					      {
+					      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+					      }
+	                	
+	                }
+					if(isset($acctype) && $acctype == '2' && (Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
+							->getFirstname($postData['account']['email']))){
+								
+					}
+            	}
             catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -216,11 +215,9 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
 						$CustomerId = $results[0]['entity_id'];
 						$product = $observer->getEvent()->getProduct();
 			    		$product->lockAttribute('creator');
-			   		}	catch (Exception $e)
-						      {
+			   		}	catch (Exception $e){
 						      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-						      	
-						      }
+						}
 	        	}
         	}
         }
@@ -343,18 +340,19 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
 						elseif($role=0){
 				  
 	                	$vendorID= Mage::helper('s2b')->getVendorAid($username);
-	                	if($vendorID>0){
-	                		$resource = Mage::getSingleton('core/resource');
-							$writeConnection = $resource->getConnection('core_write');
-							$query = "UPDATE admin_role SET parent_id ='0' WHERE user_id = "
-	             					. $vendorID;
-							$writeConnection->query($query);
-		}          }
+		                	if($vendorID>0){
+		                		$resource = Mage::getSingleton('core/resource');
+								$writeConnection = $resource->getConnection('core_write');
+								$query = "UPDATE admin_role SET parent_id ='0' WHERE user_id = "
+		             					. $vendorID;
+								$writeConnection->query($query);
+							}          
+						}
 	                }               
 	        		
 	        		catch (Exception $e) {
 	        			Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-	        	}
+	        		}
         }
 	
 }
