@@ -125,18 +125,18 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
  				$loadusr = $customer['email'];
 				$customer['newemail']=$postData['email'];
  				$checkadmn = Mage::getModel("admin/user")->load($loadusr,'username');
- 				if($checkadmn->getUsername()==$loadusr)
+ 				if($postData['account']['oldemail']!=$postData['account']['email'])
  				{
  					$acct = '0';
  				}else
  				{
- 					if($customer['newemail']!=$customer['email']){
+ 					if($postData['account']['oldemail']==$postData['account']['email']){
  						$acct='1';
  					}else{
  					$acct = '3';
 					}
  				}
-                if (isset($acctype) && $acctype == '2' && $acct='1') {
+                if (isset($acctype) && $acctype == '2' && $acct=='1') {
                       try
       {
       					
@@ -169,21 +169,13 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
 				      	Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
 				      }
                 	
-                }elseif($customer['newemail']!=$customer['email'] && $acctype == '2'){
+                }elseif(($postData['account']['oldemail']!=$postData['account']['email']) && isset($acctype) && $acctype == '2'){
                 	  try
       {
       					
-							
-				          $resource = Mage::getSingleton('core/resource');
-				          $writeConnection = $resource->getConnection('core_write');
-				          $table = $resource->getTableName('admin/user');
-				          $query = "UPDATE {$table} SET password = '{$customer['password_hash']}' 
-				          			WHERE user_id = '{$user->getId()}'";
-				          $writeConnection->query($query);
-						  $query = "UPDATE {$table} SET username = '{$customer['newemail']}' 
-				          			WHERE username = '{$customer['email']}'";
-							$query = "UPDATE {$table} SET email = '{$customer['newemail']}' 
-				          			WHERE username = '{$customer['email']}'";
+						Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
+						->setUsername($postData['account']['email'])
+						->setEmail($postData['account']['email'])->save();
 				          Mage::getSingleton('adminhtml/session')->addSuccess('Customer edit to vendor');
 				          
 				      }
@@ -193,6 +185,10 @@ class Yougento_S2b_Model_Observer extends Mage_Core_Model_Abstract
 				      }
                 	
                 }
+				if(isset($acctype) && $acctype == '2' && (Mage::getModel("admin/user")->load($postData['account']['oldemail'],'username')
+						->getFirstname($postData['account']['email']))){
+							
+						}
             }
             catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
